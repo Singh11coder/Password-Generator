@@ -7,6 +7,7 @@ const App = () => {
   const [lowerCase,setLowerCase] = useState(false);
   const [symbols, setSymbols] = useState(false);
   const [length,setLength] = useState(6);
+  const [copied,setCopied] = useState(false);
 
   let str = "abcdefghijklmnopqrstuvwxyz";
   let str2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -51,13 +52,26 @@ const App = () => {
      buildPassword();
   },[upperCase,lowerCase,numbers,symbols,length])
 
+  const handleCopy = () => {
+     window.navigator.clipboard.writeText(password);
+     setCopied(true);
+     setTimeout(() => {
+         setCopied(false);
+     },3000);
+
+    
+  }
+
   return (
     <div className="bg-gray-700 h-screen p-30">
        <h1 className="text-white ml-120 text-5xl mb-4">Password Generator</h1>
        <div className="ml-100 h-100 bg-gray-900 w-162.5 rounded-4xl">
            <div className="w-100%  flex justify-between items-center py-3 px-8">
-              <div className="text-white text-2xl">{password}</div>
-              <button className="text-white bg-cyan-900 px-4 py-2 rounded-xl text-xl cursor-pointer">Copy</button>
+              <div className={`${copied ?"bg-blue-800 text-white text-2xl" : "text-white text-2xl" }`}>{password}</div>
+              <button
+              onClick={handleCopy} 
+              className="text-white bg-cyan-900 px-4 py-2 rounded-xl text-xl cursor-pointer"
+              >{copied ? "copied" : "copy"}</button>
            </div>
            
            <div className="w-100%  flex justify-between items-center py-3 px-8 text-white text-xl">
